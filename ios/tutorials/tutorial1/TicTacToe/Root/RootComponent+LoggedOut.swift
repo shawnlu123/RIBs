@@ -20,11 +20,11 @@ import RIBs
 // TODO: Update RootDependency protocol to inherit this protocol.
 protocol RootDependencyLoggedOut: Dependency {
 
-    // TODO: Declare dependencies needed from the parent scope of Root to provide dependencies
-    // for the LoggedOut scope.
+  // TODO: Declare dependencies needed from the parent scope of Root to provide dependencies
+  // for the LoggedOut scope.
 }
 
 extension RootComponent: LoggedOutDependency {
 
-    // TODO: Implement properties to provide for LoggedOut scope.
+  // TODO: Implement properties to provide for LoggedOut scope.
 }
