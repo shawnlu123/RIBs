@@ -153,11 +153,11 @@
 			isa = PBXGroup;
 			children = (
 				E9CB1D371F972FE400D84847 /* RootBuilder.swift */,
+				3AF238C0231896F000CB751B /* RootComponent+LoggedIn.swift */,
 				E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */,
 				E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */,
 				E9CB1D3B1F972FE400D84847 /* RootRouter.swift */,
 				E9CB1D3C1F972FE400D84847 /* RootViewController.swift */,
-				3AF238C0231896F000CB751B /* RootComponent+LoggedIn.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
