@@ -21,9 +21,14 @@ protocol RootDependency: Dependency {
   // created by this RIB.
 }
 
-final class RootComponent: Component<RootDependency>, LoggedInDependency {
+final class RootComponent: Component<RootDependency> {
 
-  // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+  let rootViewController: RootViewController
+
+  init(dependency: RootDependency, rootViewController: RootViewController) {
+    self.rootViewController = rootViewController
+    super.init(dependency: dependency)
+  }
 }
 
 // MARK: - Builder
@@ -39,7 +44,10 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
   }
 
   func build() -> LaunchRouting {
-    let component = RootComponent(dependency: dependency)
+    let component = RootComponent(
+      dependency: dependency,
+      rootViewController: RootViewController()
+    )
     let viewController = RootViewController()
     let interactor = RootInteractor(presenter: viewController)
 
