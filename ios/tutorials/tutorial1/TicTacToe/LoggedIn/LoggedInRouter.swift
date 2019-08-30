@@ -56,6 +56,13 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
   private let ticTacToeBuilder: TicTacToeBuildable
   private var ticTacToe: ViewableRouting?
 
+  private func detachCurrentChild() {
+    if let currentChild = currentChild {
+      detachChild(currentChild)
+      viewController.dismiss(viewController: currentChild.viewControllable)
+    }
+  }
+
   private func attachOffGame() {
     let offGame = offGameBuilder.build(withListener: interactor)
     self.offGame = offGame
@@ -72,8 +79,14 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
       self.offGame = nil
     }
 
+    self.currentChild = ticTacToe
     let ticTacToe = ticTacToeBuilder.build(withListener: interactor)
     self.ticTacToe = ticTacToe
     attachChild(ticTacToe)
+  }
+
+  func routeToOffGame() {
+    detachCurrentChild()
+    attachOffGame()
   }
 }

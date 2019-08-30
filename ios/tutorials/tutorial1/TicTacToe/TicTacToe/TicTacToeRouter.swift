@@ -25,8 +25,10 @@ protocol TicTacToeViewControllable: ViewControllable {
   // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
-final class TicTacToeRouter: ViewableRouter<TicTacToeInteractable, TicTacToeViewControllable>, TicTacToeRouting {
-
+final class TicTacToeRouter:
+  ViewableRouter<TicTacToeInteractable, TicTacToeViewControllable>,
+  TicTacToeRouting
+{
   // TODO: Constructor inject child builder protocols to allow building children.
   override init(
     interactor: TicTacToeInteractable,
