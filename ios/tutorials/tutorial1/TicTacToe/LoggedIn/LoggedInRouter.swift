@@ -8,7 +8,7 @@
 
 import RIBs
 
-protocol LoggedInInteractable: Interactable, OffGameListener {
+protocol LoggedInInteractable: Interactable, OffGameListener, TicTacToeListener {
   var router: LoggedInRouting? { get set }
   var listener: LoggedInListener? { get set }
 }
@@ -24,10 +24,12 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
   init(
     interactor: LoggedInInteractable,
     viewController: LoggedInViewControllable,
-    offGameBuilder: OffGameBuildable
+    offGameBuilder: OffGameBuildable,
+    ticTacToeBuilder: TicTacToeBuildable
   ) {
     self.viewController = viewController
     self.offGameBuilder = offGameBuilder
+    self.ticTacToeBuilder = ticTacToeBuilder
     super.init(interactor: interactor)
     interactor.router = self
   }
@@ -46,19 +48,32 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
   // MARK: - Private
 
   private let viewController: LoggedInViewControllable
+  private var currentChild: ViewableRouting?
 
   private let offGameBuilder: OffGameBuildable
+  private var offGame: ViewableRouting?
 
-  private var currentChild: ViewableRouting?
+  private let ticTacToeBuilder: TicTacToeBuildable
+  private var ticTacToe: ViewableRouting?
 
   private func attachOffGame() {
     let offGame = offGameBuilder.build(withListener: interactor)
+    self.offGame = offGame
+
     self.currentChild = offGame
     attachChild(offGame)
     viewController.present(viewController: offGame.viewControllable)
   }
 
   func routeToTicTacToe() {
-    
+    if let offGame = offGame {
+      detachChild(offGame)
+      viewController.dismiss(viewController: offGame.viewControllable)
+      self.offGame = nil
+    }
+
+    let ticTacToe = ticTacToeBuilder.build(withListener: interactor)
+    self.ticTacToe = ticTacToe
+    attachChild(ticTacToe)
   }
 }
