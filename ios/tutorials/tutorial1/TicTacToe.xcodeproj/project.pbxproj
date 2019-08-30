@@ -143,9 +143,9 @@
 		3A8D819C2319AE4B0027AD61 /* TicTacToeTests */ = {
 			isa = PBXGroup;
 			children = (
+				3A8D81A72319BC0F0027AD61 /* RootRouterTests.swift */,
 				3A8D819D2319AE4B0027AD61 /* TicTacToeMocks.swift */,
 				3A8D819F2319AE4B0027AD61 /* Info.plist */,
-				3A8D81A72319BC0F0027AD61 /* RootRouterTests.swift */,
 			);
 			path = TicTacToeTests;
 			sourceTree = "<group>";
