@@ -39,7 +39,7 @@ final class LoggedInInteractor: Interactor, LoggedInInteractable {
     // TODO: Pause any business logic.
   }
 
-  func routeToTicTacToe() {
+  func startTicTacToe() {
     router?.routeToTicTacToe()
   }
 
