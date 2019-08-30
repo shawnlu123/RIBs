@@ -57,4 +57,8 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
     attachChild(offGame)
     viewController.present(viewController: offGame.viewControllable)
   }
+
+  func routeToTicTacToe() {
+    
+  }
 }

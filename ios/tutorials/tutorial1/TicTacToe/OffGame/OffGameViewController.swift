@@ -19,9 +19,7 @@ import SnapKit
 import UIKit
 
 protocol OffGamePresentableListener: class {
-  // TODO: Declare properties and methods that the view controller can invoke to perform
-  // business logic, such as signIn(). This protocol is implemented by the corresponding
-  // interactor class.
+  func didTapStartGame()
 }
 
 final class OffGameViewController: UIViewController, OffGamePresentable, OffGameViewControllable {
@@ -59,5 +57,13 @@ final class OffGameViewController: UIViewController, OffGamePresentable, OffGame
     startButton.setTitle("Start Game", for: .normal)
     startButton.setTitleColor(UIColor.white, for: .normal)
     startButton.backgroundColor = UIColor.black
+    startButton.addTarget(
+      self,
+      action: #selector(didTapStartGame),
+      for: .touchUpInside)
+  }
+
+  @objc private func didTapStartGame() {
+    listener?.didTapStartGame()
   }
 }
