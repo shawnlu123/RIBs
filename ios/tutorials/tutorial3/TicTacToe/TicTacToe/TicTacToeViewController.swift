@@ -28,8 +28,13 @@ final class TicTacToeViewController:
   TicTacToeViewControllable
 {
   weak var listener: TicTacToePresentableListener?
+
+  private let player1Name: String
+  private let player2Name: String
   
-  init() {
+  init(player1Name: String, player2Name: String) {
+    self.player1Name = player1Name
+    self.player2Name = player2Name
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -57,9 +62,9 @@ final class TicTacToeViewController:
       if let winner = winner {
         switch winner {
         case .player1:
-          return "Red won!"
+          return "\(player1Name) won!"
         case .player2:
-          return "Blue won!"
+          return "\(player2Name) won!"
         }
       } else {
         return "It's a draw!"
