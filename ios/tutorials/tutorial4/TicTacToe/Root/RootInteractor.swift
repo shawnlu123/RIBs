@@ -18,7 +18,10 @@ import RIBs
 import RxSwift
 
 protocol RootRouting: ViewableRouting {
-  func routeToLoggedIn(withPlayer1Name player1Name: String, player2Name: String)
+  func routeToLoggedIn(
+    withPlayer1Name player1Name: String,
+    player2Name: String
+  ) -> LoggedInActionableItem
 }
 
 protocol RootPresentable: Presentable {
@@ -38,8 +41,10 @@ final class RootInteractor:
   UrlHandler
 {
   weak var router: RootRouting?
-  
   weak var listener: RootListener?
+  
+  private let loggedInActionableItemSubject =
+    ReplaySubject<LoggedInActionableItem>.create(bufferSize: 1)
   
   // TODO: Add additional dependencies to constructor. Do not perform any logic
   // in constructor.
@@ -61,7 +66,11 @@ final class RootInteractor:
   // MARK: - LoggedOutListener
   
   func didLogin(withPlayer1Name player1Name: String, player2Name: String) {
-    router?.routeToLoggedIn(withPlayer1Name: player1Name, player2Name: player2Name)
+    let loggedInActionableItem =
+      router?.routeToLoggedIn(withPlayer1Name: player1Name, player2Name: player2Name)
+    if let loggedInActionableItem = loggedInActionableItem {
+      loggedInActionableItemSubject.onNext(loggedInActionableItem)
+    }
   }
   
   // MARK: - UrlHandler
@@ -71,5 +80,14 @@ final class RootInteractor:
     launchGameWorkflow
       .subscribe(self)
       .disposeOnDeactivate(interactor: self)
+  }
+  
+  // MARK: - RootActionableItem
+  
+  func waitForLogin() -> Observable<(LoggedInActionableItem, ())> {
+    return loggedInActionableItemSubject
+      .map { (loggedInItem: LoggedInActionableItem) -> (LoggedInActionableItem, ()) in
+        (loggedInItem, ())
+      }
   }
 }
