@@ -33,8 +33,7 @@ public class RootInteractor extends Interactor<RootInteractor.RootPresenter, Roo
   @Override
   protected void didBecomeActive(@Nullable Bundle savedInstanceState) {
     super.didBecomeActive(savedInstanceState);
-
-    // Add attachment logic here (RxSubscriptions, etc.).
+    getRouter().attachLoggedOut();
   }
 
   /** Presenter interface implemented by this RIB's view. */
