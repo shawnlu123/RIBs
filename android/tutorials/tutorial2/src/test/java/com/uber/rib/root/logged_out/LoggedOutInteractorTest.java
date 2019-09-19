@@ -11,22 +11,23 @@ import org.mockito.MockitoAnnotations;
 @SuppressWarnings("NullAway")
 public class LoggedOutInteractorTest extends RibTestBasePlaceholder {
 
-    @Mock LoggedOutInteractor.LoggedOutPresenter presenter;
-    @Mock LoggedOutRouter router;
+  @Mock LoggedOutInteractor.LoggedOutPresenter presenter;
+  @Mock LoggedOutRouter router;
+  @Mock LoggedOutInteractor.Listener listener;
 
-    private LoggedOutInteractor interactor;
+  private LoggedOutInteractor interactor;
 
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
+  @Before
+  public void setup() {
+    MockitoAnnotations.initMocks(this);
 
-        interactor = TestLoggedOutInteractor.create(presenter);
-    }
+    interactor = TestLoggedOutInteractor.create(listener, presenter);
+  }
 
-    /**
-     * TODO: Delete this example and add real tests.
-     */
-    @Test
-    public void anExampleTest_withSomeConditions_shouldPass() { }
-
+  /**
+   * TODO: Delete this example and add real tests.
+   */
+  @Test
+  public void anExampleTest_withSomeConditions_shouldPass() {
+  }
 }

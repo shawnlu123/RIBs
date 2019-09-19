@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import com.uber.rib.core.Bundle;
 import com.uber.rib.core.Interactor;
 import com.uber.rib.core.RibInteractor;
+import com.uber.rib.root.logged_out.LoggedOutInteractor;
 
 import javax.inject.Inject;
 
@@ -38,4 +39,13 @@ public class RootInteractor extends Interactor<RootInteractor.RootPresenter, Roo
 
   /** Presenter interface implemented by this RIB's view. */
   interface RootPresenter {}
+
+  class LoggedOutListener implements LoggedOutInteractor.Listener {
+    @Override
+    public void login(String userName) {
+      // Switch to logged in. Let’s just ignore userName for now.
+      getRouter().detachLoggedOut();
+      getRouter().attachLoggedIn();
+    }
+  }
 }

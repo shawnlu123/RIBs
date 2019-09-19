@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 
 import com.uber.rib.core.InteractorBaseComponent;
 import com.uber.rib.core.ViewBuilder;
+import com.uber.rib.root.logged_out.LoggedOutInteractor;
 import com.uber.rib.tutorial1.R;
 import com.uber.rib.root.logged_out.LoggedOutBuilder;
 
@@ -78,6 +79,12 @@ public class RootBuilder extends ViewBuilder<RootView, RootRouter, RootBuilder.P
     @Provides
     static RootRouter router(Component component, RootView view, RootInteractor interactor) {
       return new RootRouter(view, interactor, component, new LoggedOutBuilder(component));
+    }
+
+    @RootScope
+    @Provides
+    static LoggedOutInteractor.Listener loggedOutListener(RootInteractor rootInteractor) {
+      return rootInteractor.new LoggedOutListener();
     }
   }
 
