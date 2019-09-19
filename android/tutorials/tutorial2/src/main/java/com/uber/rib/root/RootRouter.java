@@ -19,23 +19,30 @@ package com.uber.rib.root;
 import androidx.annotation.Nullable;
 
 import com.uber.rib.core.ViewRouter;
+import com.uber.rib.root.logged_in.LoggedInBuilder;
 import com.uber.rib.root.logged_out.LoggedOutBuilder;
 import com.uber.rib.root.logged_out.LoggedOutRouter;
 
-/** Adds and removes children of {@link RootBuilder.RootScope}. */
+/**
+ * Adds and removes children of {@link RootBuilder.RootScope}.
+ */
 public class RootRouter extends ViewRouter<RootView, RootInteractor, RootBuilder.Component> {
 
   private final LoggedOutBuilder loggedOutBuilder;
+  private final LoggedInBuilder loggedInBuilder;
 
   @Nullable private LoggedOutRouter loggedOutRouter;
 
   RootRouter(
-      RootView view,
-      RootInteractor interactor,
-      RootBuilder.Component component,
-      LoggedOutBuilder loggedOutBuilder) {
+    RootView view,
+    RootInteractor interactor,
+    RootBuilder.Component component,
+    LoggedOutBuilder loggedOutBuilder,
+    LoggedInBuilder loggedInBuilder
+  ) {
     super(view, interactor, component);
     this.loggedOutBuilder = loggedOutBuilder;
+    this.loggedInBuilder = loggedInBuilder;
   }
 
   void attachLoggedOut() {
@@ -45,10 +52,14 @@ public class RootRouter extends ViewRouter<RootView, RootInteractor, RootBuilder
   }
 
   public void attachLoggedIn() {
-
+    attachChild(loggedInBuilder.build());
   }
 
   public void detachLoggedOut() {
-
+    if (loggedOutRouter != null) {
+      detachChild(loggedOutRouter);
+      getView().removeView(loggedOutRouter.getView());
+      loggedOutRouter = null;
+    }
   }
 }

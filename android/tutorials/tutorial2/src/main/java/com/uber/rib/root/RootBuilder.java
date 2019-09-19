@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 
 import com.uber.rib.core.InteractorBaseComponent;
 import com.uber.rib.core.ViewBuilder;
+import com.uber.rib.root.logged_in.LoggedInBuilder;
 import com.uber.rib.root.logged_out.LoggedOutInteractor;
 import com.uber.rib.tutorial1.R;
 import com.uber.rib.root.logged_out.LoggedOutBuilder;
@@ -35,7 +36,9 @@ import dagger.Provides;
 
 import static java.lang.annotation.RetentionPolicy.CLASS;
 
-/** Builder for the {@link RootScope}. */
+/**
+ * Builder for the {@link RootScope}.
+ */
 public class RootBuilder extends ViewBuilder<RootView, RootRouter, RootBuilder.ParentComponent> {
 
   public RootBuilder(ParentComponent dependency) {
@@ -52,10 +55,10 @@ public class RootBuilder extends ViewBuilder<RootView, RootRouter, RootBuilder.P
     RootView view = createView(parentViewGroup);
     RootInteractor interactor = new RootInteractor();
     Component component = DaggerRootBuilder_Component.builder()
-            .parentComponent(getDependency())
-            .view(view)
-            .interactor(interactor)
-            .build();
+      .parentComponent(getDependency())
+      .view(view)
+      .interactor(interactor)
+      .build();
     return component.rootRouter();
   }
 
@@ -78,7 +81,13 @@ public class RootBuilder extends ViewBuilder<RootView, RootRouter, RootBuilder.P
     @RootScope
     @Provides
     static RootRouter router(Component component, RootView view, RootInteractor interactor) {
-      return new RootRouter(view, interactor, component, new LoggedOutBuilder(component));
+      return new RootRouter(
+        view,
+        interactor,
+        component,
+        new LoggedOutBuilder(component),
+        new LoggedInBuilder(component)
+      );
     }
 
     @RootScope
@@ -94,9 +103,11 @@ public class RootBuilder extends ViewBuilder<RootView, RootRouter, RootBuilder.P
     dependencies = ParentComponent.class
   )
   interface Component extends
-      InteractorBaseComponent<RootInteractor>,
-      LoggedOutBuilder.ParentComponent,
-      BuilderComponent {
+    InteractorBaseComponent<RootInteractor>,
+    LoggedOutBuilder.ParentComponent,
+    LoggedInBuilder.ParentComponent,
+    BuilderComponent
+  {
 
     @dagger.Component.Builder
     interface Builder {
@@ -118,5 +129,6 @@ public class RootBuilder extends ViewBuilder<RootView, RootRouter, RootBuilder.P
 
   @Scope
   @Retention(CLASS)
-  @interface RootScope {}
+  @interface RootScope {
+  }
 }
