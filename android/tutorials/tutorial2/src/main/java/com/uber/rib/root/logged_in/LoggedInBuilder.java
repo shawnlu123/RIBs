@@ -3,6 +3,10 @@ package com.uber.rib.root.logged_in;
 import com.uber.rib.core.Builder;
 import com.uber.rib.core.EmptyPresenter;
 import com.uber.rib.core.InteractorBaseComponent;
+import com.uber.rib.root.logged_in.off_game.OffGameBuilder;
+import com.uber.rib.root.logged_in.off_game.OffGameInteractor;
+import com.uber.rib.root.logged_in.tic_tac_toe.TicTacToeBuilder;
+
 import java.lang.annotation.Retention;
 
 import javax.inject.Qualifier;
@@ -53,12 +57,21 @@ public class LoggedInBuilder extends Builder<LoggedInRouter, LoggedInBuilder.Par
       return new LoggedInRouter(interactor, component);
     }
 
-    // TODO: Create provider methods for dependencies created by this Rib. These methods should be static.
+    @LoggedInScope
+    @Provides
+    static OffGameInteractor.Listener offGameListener(LoggedInInteractor interactor) {
+      return interactor.new OffGameListener();
+    }
   }
 
   @LoggedInScope
   @dagger.Component(modules = Module.class, dependencies = ParentComponent.class)
-  public interface Component extends InteractorBaseComponent<LoggedInInteractor>, BuilderComponent {
+  public interface Component extends
+    InteractorBaseComponent<LoggedInInteractor>,
+    BuilderComponent,
+    OffGameBuilder.ParentComponent,
+    TicTacToeBuilder.ParentComponent
+  {
 
     @dagger.Component.Builder
     interface Builder {
@@ -67,7 +80,6 @@ public class LoggedInBuilder extends Builder<LoggedInRouter, LoggedInBuilder.Par
       Builder parentComponent(ParentComponent component);
       Component build();
     }
-
   }
 
   interface BuilderComponent {

@@ -5,6 +5,7 @@ import com.uber.rib.core.EmptyPresenter;
 import com.uber.rib.core.Interactor;
 import com.uber.rib.core.RibInteractor;
 import com.uber.rib.core.Router;
+import com.uber.rib.root.logged_in.off_game.OffGameInteractor;
 
 import javax.inject.Inject;
 
@@ -22,7 +23,7 @@ public class LoggedInInteractor extends Interactor<EmptyPresenter, LoggedInRoute
   protected void didBecomeActive(@Nullable Bundle savedInstanceState) {
     super.didBecomeActive(savedInstanceState);
 
-    // TODO: Add attachment logic here (RxSubscriptions, etc.).
+//    getRouter().attachOffGame();
   }
 
   @Override
@@ -32,4 +33,12 @@ public class LoggedInInteractor extends Interactor<EmptyPresenter, LoggedInRoute
     // TODO: Perform any required clean up here, or delete this method entirely if not needed.
   }
 
+  class OffGameListener implements OffGameInteractor.Listener {
+
+    @Override
+    public void onStartGame() {
+//      getRouter().detachOffGame();
+//      getRouter().attachTicTacToe();
+    }
+  }
 }
