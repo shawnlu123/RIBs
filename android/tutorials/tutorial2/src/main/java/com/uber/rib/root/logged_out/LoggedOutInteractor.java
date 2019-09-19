@@ -1,10 +1,5 @@
 package com.uber.rib.root.logged_out;
 
-import androidx.annotation.Nullable;
-
-import android.util.Log;
-import android.widget.Toast;
-
 import com.uber.rib.core.Bundle;
 import com.uber.rib.core.Interactor;
 import com.uber.rib.core.RibInteractor;
@@ -12,11 +7,10 @@ import com.uber.rib.root.logged_out.LoggedOutBuilder.LoggedOutScope;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-
-import static android.text.TextUtils.isEmpty;
 
 /**
  * Coordinates Business Logic for {@link LoggedOutScope}.
@@ -41,7 +35,7 @@ public class LoggedOutInteractor
       .subscribe(new Consumer<String>() {
         @Override
         public void accept(String name) throws Exception {
-          if (!isEmpty(name)) {
+          if (!name.isEmpty()) {
             listener.login(name);
           }
         }

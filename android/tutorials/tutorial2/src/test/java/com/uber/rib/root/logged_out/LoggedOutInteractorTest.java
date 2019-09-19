@@ -8,6 +8,13 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import io.reactivex.Observable;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @SuppressWarnings("NullAway")
 public class LoggedOutInteractorTest extends RibTestBasePlaceholder {
 
@@ -29,5 +36,23 @@ public class LoggedOutInteractorTest extends RibTestBasePlaceholder {
    */
   @Test
   public void anExampleTest_withSomeConditions_shouldPass() {
+  }
+
+  @Test
+  public void attach_whenViewEmitsName_shouldCallListener() {
+    when(presenter.loginName()).thenReturn(Observable.just("fakename"));
+
+    InteractorHelper.attach(interactor, presenter, router, null);
+    verify(listener).login(any(String.class));
+  }
+
+  @Test
+  public void attach_whenViewEmitsEmptyName_shouldNotCallListener() {
+    when(presenter.loginName()).thenReturn(Observable.just(""));
+
+    InteractorHelper.attach(interactor, presenter, router, null);
+    // This test will fail because the interactor doesn’t have any logic for handling empty strings.
+    // You’ll need to fix this as discussed above the code snippet.
+    verify(listener, never()).login(any(String.class));
   }
 }
