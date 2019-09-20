@@ -23,7 +23,7 @@ public class LoggedInInteractor extends Interactor<EmptyPresenter, LoggedInRoute
   protected void didBecomeActive(@Nullable Bundle savedInstanceState) {
     super.didBecomeActive(savedInstanceState);
 
-//    getRouter().attachOffGame();
+    getRouter().attachOffGame();
   }
 
   @Override
@@ -37,8 +37,8 @@ public class LoggedInInteractor extends Interactor<EmptyPresenter, LoggedInRoute
 
     @Override
     public void onStartGame() {
-//      getRouter().detachOffGame();
-//      getRouter().attachTicTacToe();
+      getRouter().detachOffGame();
+      getRouter().attachTicTacToe();
     }
   }
 }

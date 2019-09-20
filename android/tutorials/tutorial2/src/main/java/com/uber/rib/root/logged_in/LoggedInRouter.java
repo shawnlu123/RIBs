@@ -9,6 +9,8 @@ import com.uber.rib.root.logged_in.off_game.OffGameRouter;
 import com.uber.rib.root.logged_in.tic_tac_toe.TicTacToeBuilder;
 import com.uber.rib.root.logged_in.tic_tac_toe.TicTacToeRouter;
 
+import androidx.annotation.Nullable;
+
 /**
  * Adds and removes children of {@link LoggedInBuilder.LoggedInScope}.
  * <p>
@@ -21,8 +23,8 @@ public class LoggedInRouter
   private OffGameBuilder offGameBuilder;
   private TicTacToeBuilder ticTacToeBuilder;
 
-  private OffGameRouter offGameRouter;
-  private TicTacToeRouter ticTacToeRouter;
+  @Nullable private OffGameRouter offGameRouter;
+  @Nullable private TicTacToeRouter ticTacToeRouter;
 
   public LoggedInRouter(
     LoggedInInteractor interactor,
@@ -35,6 +37,13 @@ public class LoggedInRouter
     this.rootView = rootView;
     this.offGameBuilder = offGameBuilder;
     this.ticTacToeBuilder = ticTacToeBuilder;
+  }
+
+  @Override
+  protected void willDetach() {
+    super.willDetach();
+    detachOffGame();
+    detachTicTacToe();
   }
 
   void attachOffGame() {
