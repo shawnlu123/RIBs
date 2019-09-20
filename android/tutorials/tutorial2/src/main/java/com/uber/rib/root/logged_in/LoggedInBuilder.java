@@ -3,6 +3,7 @@ package com.uber.rib.root.logged_in;
 import com.uber.rib.core.Builder;
 import com.uber.rib.core.EmptyPresenter;
 import com.uber.rib.core.InteractorBaseComponent;
+import com.uber.rib.root.RootView;
 import com.uber.rib.root.logged_in.off_game.OffGameBuilder;
 import com.uber.rib.root.logged_in.off_game.OffGameInteractor;
 import com.uber.rib.root.logged_in.tic_tac_toe.TicTacToeBuilder;
@@ -39,7 +40,7 @@ public class LoggedInBuilder extends Builder<LoggedInRouter, LoggedInBuilder.Par
   }
 
   public interface ParentComponent {
-    // TODO: Define dependencies required from your parent interactor here.
+    RootView rootView();
   }
 
   @dagger.Module
@@ -53,8 +54,17 @@ public class LoggedInBuilder extends Builder<LoggedInRouter, LoggedInBuilder.Par
 
     @LoggedInScope
     @Provides
-    static LoggedInRouter router(Component component, LoggedInInteractor interactor) {
-      return new LoggedInRouter(interactor, component);
+    static LoggedInRouter router(
+      Component component,
+      LoggedInInteractor interactor,
+      RootView rootView
+    ) {
+      return new LoggedInRouter(
+        interactor,
+        component,
+        rootView,
+        new OffGameBuilder(component),
+        new TicTacToeBuilder(component));
     }
 
     @LoggedInScope
